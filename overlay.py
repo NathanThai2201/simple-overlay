@@ -16,10 +16,20 @@ def raise_and_clickthrough():
 
 root = tk.Tk()
 root.title("Screen Overlay")
-root.geometry(f"{root.winfo_screenwidth()}x{root.winfo_screenheight()}+0+0")
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+root.geometry(f"{screen_width}x{screen_height}+0+0")
 root.attributes('-alpha', 0.1)
 
 image = Image.open("a.png")  
+img_width, img_height = image.size
+scale = min(screen_width / img_width, screen_height / img_height)
+
+new_width = int(img_width * scale)
+new_height = int(img_height * scale)
+
+# resize image
+image = image.resize((new_width, new_height))
 bg_image = ImageTk.PhotoImage(image)
 
 
